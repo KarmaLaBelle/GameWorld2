@@ -40,6 +40,19 @@ namespace GameWorld2
 			return _target.name;
 		}
 
+		[SprakAPI("Get the user defined label of the attached thing")]
+		public string API_GetLabel()
+		{
+			API_Sleep (Randomizer.GetValue(1.0f, 2.0f));
+			return _target.userDefinedLabel;
+		}
+
+		[SprakAPI("Set the user defined label of the attached thing")]
+		public string API_SetLabel()
+		{
+			return _target.userDefinedLabel;
+		}
+
 		[SprakAPI("Sleepiness of attached character")]
 		public float API_GetSleepiness()
 		{
@@ -86,13 +99,13 @@ namespace GameWorld2
 			Say (text, "");
 		}
 
-		public Action<String> copyToClipboard;
+		//public Action<String> copyToClipboard;
 
 		[SprakAPI("Copy a piece of text to the clipboard", "text")]
 		public void API_CopyToClipboard(string text)
 		{
-			if(copyToClipboard != null) {
-				copyToClipboard(text);
+			if(_worldSettings.onCopyToClipboard != null) {
+				_worldSettings.onCopyToClipboard(text);
 			}
 			else {
 				D.Log("copyToClipboard is null");

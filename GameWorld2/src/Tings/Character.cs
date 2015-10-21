@@ -165,7 +165,13 @@ namespace GameWorld2
 		
 		public override string tooltipName {
 			get {
-				return "person";
+				Character avatar = _tingRunner.GetTingUnsafe(_worldSettings.avatarName) as Character;
+				if(avatar != null && avatar.HasKnowledge(name)) {
+					return name;
+				}
+				else {
+					return "person";
+				}
 			}
 		}
 		
@@ -1174,7 +1180,8 @@ namespace GameWorld2
 
 			var dropTarget = new WorldCoordinate (room.name, localPoint + IntPoint.DirectionToIntPoint (direction) * 2);
 			var tileDropTarget = room.GetTile(dropTarget.localPosition);
-			if(tileDropTarget == null || tileDropTarget.HasOccupants()) {
+
+			if(tileDropTarget == null || (isAvatar && tileDropTarget.HasOccupants())) {
 				_worldSettings.Notify (name, "Can't put " + handItem.name + " there");
 				return;
 			}
